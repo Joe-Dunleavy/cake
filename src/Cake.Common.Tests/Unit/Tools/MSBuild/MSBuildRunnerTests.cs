@@ -825,7 +825,7 @@ namespace Cake.Common.Tests.Unit.Tools.MSBuild
             }
 
             [Fact]
-            public void Should_Not_Escape_Argument_Semicolons_For_Specified_Properties_When__Appending_Property_To_Process_Argument()
+            public void Should_Not_Escape_Argument_Semicolons_For_Specified_Properties_When_Appending_Property_To_Process_Argument()
             {
                 // Given
                 var fixture = new MSBuildRunnerFixture(false, PlatformFamily.Windows);
