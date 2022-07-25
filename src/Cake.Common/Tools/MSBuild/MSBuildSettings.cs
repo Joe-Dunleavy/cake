@@ -15,7 +15,7 @@ namespace Cake.Common.Tools.MSBuild
     public sealed class MSBuildSettings : ToolSettings
     {
         private readonly HashSet<string> _targets;
-        private readonly Dictionary<string, IList<string>> _properties;
+        private readonly Dictionary<string, ICollection<string>> _properties;
         private readonly List<MSBuildLogger> _loggers;
         private readonly List<MSBuildFileLogger> _fileLoggers;
         private readonly HashSet<string> _warningsAsErrorCodes;
@@ -33,7 +33,7 @@ namespace Cake.Common.Tools.MSBuild
         /// Gets the properties.
         /// </summary>
         /// <value>The properties.</value>
-        public IDictionary<string, IList<string>> Properties => _properties;
+        public IDictionary<string, ICollection<string>> Properties => _properties;
 
         /// <summary>
         /// Gets or sets the platform target.
@@ -267,7 +267,7 @@ namespace Cake.Common.Tools.MSBuild
         public MSBuildSettings()
         {
             _targets = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            _properties = new Dictionary<string, IList<string>>(StringComparer.OrdinalIgnoreCase);
+            _properties = new Dictionary<string, ICollection<string>>(StringComparer.OrdinalIgnoreCase);
             _loggers = new List<MSBuildLogger>();
             _fileLoggers = new List<MSBuildFileLogger>();
             _warningsAsErrorCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

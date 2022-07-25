@@ -190,7 +190,7 @@ namespace Cake.Common.Tools.MSBuild
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            IList<string> currentValue;
+            ICollection<string> currentValue;
             currentValue = new List<string>(
                 settings.Properties.TryGetValue(name, out currentValue) && currentValue != null
                     ? currentValue.Concat(values)
