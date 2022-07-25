@@ -21,7 +21,37 @@ namespace Cake.Common.Tools.MSBuild
             { '\n', "%0A" }
         };
 
-        internal static string EscapeMSBuildPropertySpecialCharacters(this string value)
+        private static readonly HashSet<string> _propertiesArgumentsNotEscapeSemiColons = new HashSet<string>
+        {
+            "DefineConstants",
+            "ExcludeFilesFromDeployment"
+        };
+
+        internal static string BuildMSBuildPropertyParameterString(this KeyValuePair<string, ICollection<string>> property)
+        {
+            var propertyParameterString = new StringBuilder();
+            var last = property.Value.Count - 1;
+            var index = 0;
+
+            var escapeSemiColons = property.Key.AllowEscapeSemiColon();
+            foreach (var parameter in property.Value)
+            {
+                if (string.IsNullOrEmpty(parameter))
+                {
+                    index++;
+                    continue;
+                }
+
+                propertyParameterString.Append(parameter.EscapeMSBuildPropertySpecialCharacters(escapeSemiColons));
+                propertyParameterString.Append(index != last ? ";" : null);
+
+                index++;
+            }
+
+            return propertyParameterString.ToString();
+        }
+
+        private static string EscapeMSBuildPropertySpecialCharacters(this string value, bool escapeSemiColons)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -31,17 +61,22 @@ namespace Cake.Common.Tools.MSBuild
             var escapedBuilder = new StringBuilder();
             foreach (var c in value)
             {
-                if (_escapeLookup.TryGetValue(c, out string newChar))
+                if ((!escapeSemiColons && c.Equals(';')) || !_escapeLookup.TryGetValue(c, out var newChar))
                 {
-                    escapedBuilder.Append(newChar);
+                    escapedBuilder.Append(c);
                 }
                 else
                 {
-                    escapedBuilder.Append(c);
+                    escapedBuilder.Append(newChar);
                 }
             }
 
             return escapedBuilder.ToString();
+        }
+
+        private static bool AllowEscapeSemiColon(this string propertyName)
+        {
+            return !_propertiesArgumentsNotEscapeSemiColons.Contains(propertyName);
         }
     }
 }

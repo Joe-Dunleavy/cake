@@ -824,6 +824,22 @@ namespace Cake.Common.Tests.Unit.Tools.MSBuild
                              "\"C:/Working/src/Solution.sln\"", result.Args);
             }
 
+            [Fact]
+            public void Should_Not_Escape_Argument_Semicolons_For_Specified_Properties()
+            {
+                // Given
+                var fixture = new MSBuildRunnerFixture(false, PlatformFamily.Windows);
+                fixture.Settings.WithProperty("DefineConstants", "A;B");
+                fixture.Settings.WithProperty("A", "A;B");
+
+                // When
+                var result = fixture.Run();
+
+                // Then
+                Assert.Equal("/v:normal /p:DefineConstants=A;B /p:A=A%3BB /target:Build " +
+                             "\"C:/Working/src/Solution.sln\"", result.Args);
+            }
+
             [Theory]
             [InlineData("Release", "/v:normal /p:Configuration=\"Release\" /target:Build \"C:/Working/src/Solution.sln\"")]
             [InlineData("Custom Spaced", "/v:normal /p:Configuration=\"Custom Spaced\" /target:Build \"C:/Working/src/Solution.sln\"")]
