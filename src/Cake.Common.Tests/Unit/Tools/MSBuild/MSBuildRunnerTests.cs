@@ -825,7 +825,23 @@ namespace Cake.Common.Tests.Unit.Tools.MSBuild
             }
 
             [Fact]
-            public void Should_Not_Escape_Argument_Semicolons_For_Specified_Properties_When_Appending_Property_To_Process_Argument()
+            public void Should_Concatenate_Property_With_Multiple_Arguments_To_Process_Argument()
+            {
+                // Given
+                var fixture = new MSBuildRunnerFixture(false, PlatformFamily.Windows);
+                fixture.Settings.WithProperty("A", "B", "E");
+                fixture.Settings.WithProperty("C", "D", "F", "G");
+
+                // When
+                var result = fixture.Run();
+
+                // Then
+                Assert.Equal("/v:normal /p:A=B;E /p:C=D;F;G /target:Build " +
+                             "\"C:/Working/src/Solution.sln\"", result.Args);
+            }
+
+            [Fact]
+            public void Should_Not_Escape_Semicolons_For_Specified_Property_Arguments_When_Appending_To_Process_Argument()
             {
                 // Given
                 var fixture = new MSBuildRunnerFixture(false, PlatformFamily.Windows);
