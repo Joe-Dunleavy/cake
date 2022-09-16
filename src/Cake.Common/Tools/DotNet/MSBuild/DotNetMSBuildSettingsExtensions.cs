@@ -46,7 +46,7 @@ namespace Cake.Common.Tools.DotNet.MSBuild
         {
             EnsureSettings(settings);
 
-            ICollection<string> currentValue;
+            IList<string> currentValue;
 
             // try to get existing values of properties and add new property values
             currentValue = settings.Properties.TryGetValue(name, out currentValue) && currentValue != null

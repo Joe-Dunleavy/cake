@@ -27,7 +27,7 @@ namespace Cake.Common.Tools.MSBuild
             "ExcludeFilesFromDeployment"
         };
 
-        internal static string BuildMSBuildPropertyParameterString(this KeyValuePair<string, ICollection<string>> property)
+        internal static string BuildMSBuildPropertyParameterString(this KeyValuePair<string, IList<string>> property)
         {
             var propertyParameterString = new StringBuilder();
             var last = property.Value.Count - 1;

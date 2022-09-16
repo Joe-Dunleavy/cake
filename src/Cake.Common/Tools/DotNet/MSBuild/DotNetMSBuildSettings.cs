@@ -126,7 +126,7 @@ namespace Cake.Common.Tools.DotNet.MSBuild
         /// <summary>
         /// Gets the project-level properties to set or override.
         /// </summary>
-        public IDictionary<string, ICollection<string>> Properties { get; }
+        public IDictionary<string, IList<string>> Properties { get; }
 
         /// <summary>
         /// Gets the targets to build in the project.
@@ -220,7 +220,7 @@ namespace Cake.Common.Tools.DotNet.MSBuild
         /// </summary>
         public DotNetMSBuildSettings()
         {
-            Properties = new Dictionary<string, ICollection<string>>(StringComparer.OrdinalIgnoreCase);
+            Properties = new Dictionary<string, IList<string>>(StringComparer.OrdinalIgnoreCase);
             Targets = new List<string>();
             ResponseFiles = new List<FilePath>();
             DistributedLoggers = new List<MSBuildDistributedLogger>();

@@ -293,7 +293,7 @@ namespace Cake.Common.Tools.MSBuild
                     throw new ArgumentOutOfRangeException(nameof(platform), platform, "Invalid platform");
             }
         }
-        private static IEnumerable<string> GetPropertyArguments(IDictionary<string, ICollection<string>> properties)
+        private static IEnumerable<string> GetPropertyArguments(IDictionary<string, IList<string>> properties)
         {
             foreach (var property in properties)
             {
